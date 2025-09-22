@@ -1,12 +1,25 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Heart, Brain, BookOpen, Gamepad2, Lightbulb, Star, BarChart3, Menu, Home, Settings, User } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Heart,
+  Brain,
+  BookOpen,
+  Gamepad2,
+  Lightbulb,
+  Star,
+  BarChart3,
+  Menu,
+  Home,
+  Settings,
+  User,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: Home },
@@ -16,11 +29,11 @@ const navigation = [
   { name: "Wellness Games", href: "/games", icon: Gamepad2 },
   { name: "Myth Buster", href: "/myth-buster", icon: Lightbulb },
   { name: "Success Stories", href: "/stories", icon: Star },
-]
+];
 
 export function Navigation() {
-  const pathname = usePathname()
-  const [open, setOpen] = useState(false)
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -33,7 +46,7 @@ export function Navigation() {
           </div>
           <nav className="mt-8 flex-1 px-2 space-y-1">
             {navigation.map((item) => {
-              const Icon = item.icon
+              const Icon = item.icon;
               return (
                 <Link
                   key={item.name}
@@ -48,24 +61,20 @@ export function Navigation() {
                   <Icon className="mr-3 h-5 w-5 flex-shrink-0" />
                   {item.name}
                 </Link>
-              )
+              );
             })}
           </nav>
           <div className="flex-shrink-0 px-2 space-y-1">
-            <Link
-              href="/profile"
-              className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
-            >
-              <User className="mr-3 h-5 w-5 flex-shrink-0" />
-              Profile
-            </Link>
-            <Link
-              href="/settings"
-              className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
-            >
-              <Settings className="mr-3 h-5 w-5 flex-shrink-0" />
-              Settings
-            </Link>
+            <SignedIn>
+              <div className="flex items-center p-2">
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            </SignedIn>
+            <SignedOut>
+              <Button asChild>
+                <Link href="/sign-in">Sign In</Link>
+              </Button>
+            </SignedOut>
           </div>
         </div>
       </aside>
@@ -86,11 +95,13 @@ export function Navigation() {
             <SheetContent side="left" className="w-64">
               <div className="flex items-center mb-8">
                 <Heart className="h-8 w-8 text-primary" />
-                <h1 className="ml-2 text-2xl font-bold text-foreground">Uplift</h1>
+                <h1 className="ml-2 text-2xl font-bold text-foreground">
+                  Uplift
+                </h1>
               </div>
               <nav className="space-y-1">
                 {navigation.map((item) => {
-                  const Icon = item.icon
+                  const Icon = item.icon;
                   return (
                     <Link
                       key={item.name}
@@ -106,25 +117,19 @@ export function Navigation() {
                       <Icon className="mr-3 h-5 w-5 flex-shrink-0" />
                       {item.name}
                     </Link>
-                  )
+                  );
                 })}
                 <div className="pt-4 mt-4 border-t border-border">
-                  <Link
-                    href="/profile"
-                    onClick={() => setOpen(false)}
-                    className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
-                  >
-                    <User className="mr-3 h-5 w-5 flex-shrink-0" />
-                    Profile
-                  </Link>
-                  <Link
-                    href="/settings"
-                    onClick={() => setOpen(false)}
-                    className="group flex items-center px-2 py-2 text-sm font-medium rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
-                  >
-                    <Settings className="mr-3 h-5 w-5 flex-shrink-0" />
-                    Settings
-                  </Link>
+                  <SignedIn>
+                    <div className="flex items-center p-2">
+                      <UserButton afterSignOutUrl="/" />
+                    </div>
+                  </SignedIn>
+                  <SignedOut>
+                    <Button asChild>
+                      <Link href="/sign-in">Sign In</Link>
+                    </Button>
+                  </SignedOut>
                 </div>
               </nav>
             </SheetContent>
@@ -132,5 +137,5 @@ export function Navigation() {
         </div>
       </div>
     </>
-  )
+  );
 }
