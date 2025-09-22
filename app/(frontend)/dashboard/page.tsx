@@ -1,22 +1,48 @@
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Heart, Brain, BookOpen, Gamepad2, Lightbulb, Star, Calendar, Smile, TrendingUp, Target } from "lucide-react"
-import Link from "next/link"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Heart,
+  Brain,
+  BookOpen,
+  Gamepad2,
+  Lightbulb,
+  Star,
+  Calendar,
+  Smile,
+  TrendingUp,
+  Target,
+} from "lucide-react";
+import Link from "next/link";
+import { currentUser } from "@clerk/nextjs/server";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const user = await currentUser();
+
   return (
     <div className="p-6 space-y-8">
       {/* Welcome Section */}
       <div>
-        <h2 className="text-3xl font-bold text-foreground mb-2">Welcome back!</h2>
-        <p className="text-muted-foreground">How are you feeling today? Let's continue your wellness journey.</p>
+        <h2 className="text-3xl font-bold text-foreground mb-2">
+          Welcome back, {user?.firstName}!
+        </h2>
+        <p className="text-muted-foreground">
+          How are you feeling today? Let's continue your wellness journey.
+        </p>
       </div>
 
       {/* Quick Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Current Streak</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Current Streak
+            </CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -38,7 +64,9 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Journal Entries</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Journal Entries
+            </CardTitle>
             <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -78,7 +106,12 @@ export default function DashboardPage() {
               </div>
               <div className="flex gap-2 flex-wrap">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
-                  <Button key={num} variant={num === 7 ? "default" : "outline"} size="sm" className="w-10 h-10">
+                  <Button
+                    key={num}
+                    variant={num === 7 ? "default" : "outline"}
+                    size="sm"
+                    className="w-10 h-10"
+                  >
                     {num}
                   </Button>
                 ))}
@@ -115,9 +148,14 @@ export default function DashboardPage() {
 
       {/* Feature Navigation */}
       <div>
-        <h3 className="text-xl font-semibold text-foreground mb-4">Explore Your Wellness Tools</h3>
+        <h3 className="text-xl font-semibold text-foreground mb-4">
+          Explore Your Wellness Tools
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer group" asChild>
+          <Card
+            className="hover:shadow-lg transition-shadow cursor-pointer group"
+            asChild
+          >
             <Link href="/ai-therapist">
               <CardHeader className="text-center">
                 <Brain className="h-12 w-12 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
@@ -127,7 +165,10 @@ export default function DashboardPage() {
             </Link>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer group" asChild>
+          <Card
+            className="hover:shadow-lg transition-shadow cursor-pointer group"
+            asChild
+          >
             <Link href="/games">
               <CardHeader className="text-center">
                 <Gamepad2 className="h-12 w-12 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
@@ -137,7 +178,10 @@ export default function DashboardPage() {
             </Link>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer group" asChild>
+          <Card
+            className="hover:shadow-lg transition-shadow cursor-pointer group"
+            asChild
+          >
             <Link href="/myth-buster">
               <CardHeader className="text-center">
                 <Lightbulb className="h-12 w-12 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
@@ -147,7 +191,10 @@ export default function DashboardPage() {
             </Link>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow cursor-pointer group" asChild>
+          <Card
+            className="hover:shadow-lg transition-shadow cursor-pointer group"
+            asChild
+          >
             <Link href="/stories">
               <CardHeader className="text-center">
                 <Star className="h-12 w-12 text-primary mx-auto mb-2 group-hover:scale-110 transition-transform" />
@@ -187,7 +234,9 @@ export default function DashboardPage() {
             <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
               <Gamepad2 className="h-5 w-5 text-primary" />
               <div>
-                <p className="text-sm font-medium">Completed breathing exercise</p>
+                <p className="text-sm font-medium">
+                  Completed breathing exercise
+                </p>
                 <p className="text-xs text-muted-foreground">2 days ago</p>
               </div>
             </div>
@@ -195,5 +244,5 @@ export default function DashboardPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
